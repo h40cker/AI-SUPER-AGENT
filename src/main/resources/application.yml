@@ -7,12 +7,22 @@ spring:
       chat:
         options:
           model: qwen-plus
+    vectorstore:
+      pgvector:
+        index-type: HNSW
+        dimensions: 1536
+        distance-type: COSINE_DISTANCE
+        max-document-batch-size: 10000 # Optional: Maximum number of documents per batch
   server:
     port: 8123
     servlet:
       context-path: /api
+  datasource:
+      url: jdbc:postgresql://rm-cn-3ic49bwwq000ob9o.rwlb.rds.aliyuncs.com:5432/yu_ai_agent
+      username: my_user
+      password: '!myth136198'
 
- #pringdoc-openapi????
+#pringdoc-openapi????
 springdoc:
   swagger-ui:
     path: /swagger-ui.html
@@ -24,6 +34,7 @@ springdoc:
     - group: 'default'
       paths-to-match: '/**'
       packages-to-scan: com.yupi.aisuperagent.controller
+
 # knife4j???????????????
 knife4j:
   enable: true
