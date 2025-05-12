@@ -1,0 +1,34 @@
+spring:
+  application:
+    name: AI-SuperAgent
+  ai:
+    dashscope:
+      api-key: sk-2a4f300ed14b47a4a752f76cc3dd67be
+      chat:
+        options:
+          model: qwen-plus
+  server:
+    port: 8123
+    servlet:
+      context-path: /api
+
+ #pringdoc-openapi????
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    tags-sorter: alpha
+    operations-sorter: alpha
+  api-docs:
+    path: /v3/api-docs
+  group-configs:
+    - group: 'default'
+      paths-to-match: '/**'
+      packages-to-scan: com.yupi.aisuperagent.controller
+# knife4j???????????????
+knife4j:
+  enable: true
+  setting:
+    language: zh_cn
+logging:
+  level:
+    org.springframework.ai.chat.client.advisor.SimpleLoggerAdvisor: debug
