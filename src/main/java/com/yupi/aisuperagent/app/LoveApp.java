@@ -14,6 +14,7 @@ import org.springframework.ai.chat.memory.ChatMemory;
 import org.springframework.ai.chat.memory.InMemoryChatMemory;
 import org.springframework.ai.chat.model.ChatModel;
 import org.springframework.ai.chat.model.ChatResponse;
+import org.springframework.ai.tool.ToolCallbacks;
 import org.springframework.ai.vectorstore.VectorStore;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -84,6 +85,22 @@ public class LoveApp {
         String content = chatResponse.getResult().getOutput().getText();
         log.info("context:{}", content);
         return content;
+    }
+    @Resource
+    private ToolCallbacks[] alltools;
+    public  LoveReport dochatwithtools(String message, String chatId) {
+        LoveReport loveReport = chatClient
+                .prompt()
+                .system(SYSTEM_PROMPT+"每次对话后都要胜澈恋爱结果，标题为{用户名}的恋爱报告，内容为建议列表")
+                .user(message)
+                .advisors(spec -> spec.param(CHAT_MEMORY_CONVERSATION_ID_KEY,chatId)
+                        .param(CHAT_MEMORY_RETRIEVE_SIZE_KEY,10))
+                .advisors(new MyLoggerAdvisor())
+                .tools(alltools)
+                .call()
+                .entity(LoveReport.class);
+        log.info("LoveReport:{}", loveReport);
+        return loveReport;
     }
 
 }

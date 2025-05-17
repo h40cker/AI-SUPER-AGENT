@@ -39,4 +39,10 @@ class LoveAppTest {
         String loveReport = loveApp.dochatwithrag(message,chatId);
         Assertions.assertNotNull(loveReport);
     }
+
+    @Test
+    void dochatwithtools() {
+        String chatId = UUID.randomUUID().toString();
+
+    }
 }
